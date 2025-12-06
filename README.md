@@ -1,5 +1,34 @@
-# Vue 3 + TypeScript + Vite
+# 🎬 Vue Movie App (Vite + Vue 3)
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+본 프로젝트는 Vue.js와 Vite를 기반으로 제작한 영화 정보 조회 웹 애플리케이션입니다.  
+본 문서는 프로젝트 실행 방법, 기술 스택, Gitflow 브랜치 전략, 배포 정보 등을 포함합니다.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+---
+
+## 📌 1. 프로젝트 소개
+
+Vue.js를 활용하여 구현한 영화 정보 조회 애플리케이션입니다.  
+TMDB API를 사용해 인기 영화 목록, 검색 기능, 상세 페이지 등을 제공합니다.
+
+> 해당 프로젝트는 Gitflow 전략과 GitHub Actions 자동 배포 파이프라인을 적용하였습니다.
+
+---
+
+## 🛠 2. 기술 스택 (Tech Stack)
+
+- **Frontend**: Vue 3, Vite, TypeScript
+- **Styling**: CSS / SCSS (필요 시 수정)
+- **API**: TMDB API
+- **Version Control**: Git, GitHub
+- **DevOps**: GitHub Actions (CI/CD), GitHub Pages
+- **Branch Strategy**: GitFlow
+
+---
+
+## 🚀 3. 설치 및 실행 방법
+
+프로젝트를 로컬 환경에서 실행하기 위해 다음 명령어를 사용합니다:
+
+```bash
+npm install
+npm run dev

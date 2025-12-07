@@ -31,6 +31,7 @@ onMounted(async () => {
 
 <style scoped>
 .home-container {
+  background-color:#1a1a1d;
   display: flex;
   flex-direction: column;
   gap: 40px;

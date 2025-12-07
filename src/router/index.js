@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 // ✔ 실제 존재하는 파일만 import
 import HomeComponent from "@/components/Home/Home.vue";
 import AuthContainer from "@/components/login/AuthContainer.vue";
+import Popular from "@/components/Popular/Popular.vue";
 
 const routes = [
     {
@@ -14,6 +15,10 @@ const routes = [
         path: "/",
         name: "home",
         component: HomeComponent,
+    },
+    {
+        path: "/popular",
+        component: Popular   // 🔥 추가됨
     },
 ];
 

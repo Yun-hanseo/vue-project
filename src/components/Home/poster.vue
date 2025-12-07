@@ -1,33 +1,54 @@
 <template>
   <div class="poster-card">
 
-    <!-- 포스터 이미지 -->
     <div class="poster-wrapper">
       <img :src="imgUrl" class="poster-img" />
     </div>
 
-    <!-- 영화 제목 -->
     <p class="poster-title">{{ movie.title }}</p>
 
-    <!-- 영화 정보 (평점 / 개봉일) -->
     <div class="poster-info">
       <span class="rating">⭐ {{ movie.vote_average.toFixed(1) }}</span>
       <span class="release">{{ movie.release_date }}</span>
     </div>
 
+    <p class="overview">{{ movie.overview.slice(0, 30) }}...</p>
+
+    <!-- ❤️ 관심목록 버튼 -->
+    <button class="wish-btn" @click.stop="onClickHeart">
+      <span class="heart">{{ isWish ? "♥" : "♡" }}</span>
+    </button>
+
   </div>
 </template>
 
+
+
 <script setup>
+import { ref, onMounted } from "vue";
+import { toggleWishlist, isInWishlist } from "../../utils/wishlist.js";
+
 const props = defineProps({
   movie: Object
 });
 
-// 포스터 URL
 const imgUrl = props.movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${props.movie.poster_path}`
     : "https://via.placeholder.com/300x450";
+
+const isWish = ref(false);
+
+onMounted(() => {
+  isWish.value = isInWishlist(props.movie.id);
+});
+
+function onClickHeart() {
+  toggleWishlist(props.movie);
+  isWish.value = !isWish.value;
+}
 </script>
+
+
 
 <style scoped>
 .poster-card {
@@ -47,9 +68,41 @@ const imgUrl = props.movie.poster_path
   border-radius: 12px;
 }
 
+.overview
+{
+  color:white;
+}
+
+.wish-btn {
+  margin-top: 2px;
+  width: 35px;
+  border-radius: 10px;
+  border: 1px solid #555;
+  background: #1f1f1f;
+  color: white;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.wish-btn:hover {
+  background: #333;
+  transform: scale(1.02);
+}
+
+.heart {
+  font-size: 18px;
+  color: #ff4b4b;
+}
+
+
 
 /* hover 시 확대 */
-.poster-card:hover {
+.poster-img:hover {
   transform: scale(1.05);
 }
 
@@ -88,6 +141,31 @@ const imgUrl = props.movie.poster_path
 .release {
   opacity: 0.8;
 }
+
+@media (max-width: 600px) {
+  .poster-card {
+    width: 140px;
+    padding: 10px;
+  }
+
+  .poster-wrapper img {
+    width: 140px;
+    height: 210px;
+  }
+
+  .poster-title {
+    font-size: 13px;
+  }
+
+  .poster-info {
+    font-size: 11px;
+  }
+
+  .overview {
+    font-size: 11px;
+  }
+}
+
 </style>
 
 

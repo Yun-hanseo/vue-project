@@ -1,7 +1,7 @@
 <template>
-  <header :class="{ scrolled: isScrolled }" class="header">
+  <header :class="{ scrolled: isScrolled, hidden: isHidden }" class="header">
 
-    <!-- 로고 -->
+  <!-- 로고 -->
     <div class="logo" @click="goHome">
       🎬 MovieDB
     </div>
@@ -24,18 +24,43 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const user = JSON.parse(localStorage.getItem("user") || "null");
 
 const isScrolled = ref(false);
+const isHidden = ref(false);      // 🔥 추가됨
+let lastScrollY = 0;              // 🔥 스크롤 비교용 변수
+
+function handleScroll() {
+  // 🔥 모바일에서만 동작하도록 조건 추가
+  if (window.innerWidth > 600) {
+    isHidden.value = false;
+    return;
+  }
+
+  const currentY = window.scrollY;
+
+  isScrolled.value = currentY > 20;
+
+  // 스크롤 방향 감지 (모바일 전용)
+  if (currentY > lastScrollY && currentY > 80) {
+    isHidden.value = true;   // 아래로 스크롤 → 숨김
+  } else {
+    isHidden.value = false;  // 위로 스크롤 → 나타남
+  }
+
+  lastScrollY = currentY;
+}
 
 onMounted(() => {
-  window.addEventListener("scroll", () => {
-    isScrolled.value = window.scrollY > 20; // 스크롤 20px 넘으면 header 스타일 변경
-  });
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
 });
 
 // 홈 이동
@@ -50,6 +75,7 @@ function logout() {
   alert("로그아웃 되었습니다!");
 }
 </script>
+
 
 <style scoped>
 .header {
@@ -74,6 +100,7 @@ function logout() {
 }
 
 .logo {
+  color:white;
   font-size: 22px;
   font-weight: 700;
   cursor: pointer;
@@ -123,4 +150,42 @@ function logout() {
 .logout-btn:hover {
   background: #ff506d;
 }
+
+/* 🔥 모바일 헤더 전용 스타일 */
+@media (max-width: 600px) {
+  .header {
+    padding: 10px 15px;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 14px;
+    font-size: 14px;
+  }
+
+  .nav a {
+    font-size: 13px;
+  }
+}
+
+/* 🔥 모바일에서만 헤더 숨김 애니메이션 적용 */
+@media (max-width: 600px) {
+  .header {
+    transition: background 0.3s ease, padding 0.3s ease, transform 0.35s ease;
+  }
+
+  .header.hidden {
+    transform: translateY(-100%);
+  }
+}
+
+
 </style>

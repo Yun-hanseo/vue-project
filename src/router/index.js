@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeComponent from "@/components/Home/Home.vue";
 import AuthContainer from "@/components/login/AuthContainer.vue";
 import Popular from "@/components/Popular/Popular.vue";
+import Search from "@/components/Search/Search.vue";
 
 const routes = [
     {
@@ -18,8 +19,13 @@ const routes = [
     },
     {
         path: "/popular",
-        component: Popular   // 🔥 추가됨
+        component: Popular
     },
+    {
+        path: "/search",
+        name: "search",
+        component: Search
+    }
 ];
 
 // Router 생성
@@ -28,9 +34,7 @@ const router = createRouter({
     routes,
 });
 
-// ===============================
-// 🔐 로그인 여부 확인 미들웨어
-// ===============================
+//로그인 여부 확인 미들웨어
 router.beforeEach((to, from, next) => {
     const isLoggedIn = localStorage.getItem("user");
 

@@ -1,6 +1,5 @@
 <template>
   <div class="home-container">
-    <Header />
 
     <!-- 아래는 기존 섹션들 -->
     <MovieSection

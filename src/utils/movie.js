@@ -32,3 +32,20 @@ export async function getTrending() {
     const res = await fetch(`${BASE_URL}/trending/movie/day?api_key=${API_KEY}&language=ko-KR`);
     return (await res.json()).results;
 }
+
+// 🔍 검색 페이지: 기본 로딩용 API (인기 영화 또는 discover 기반)
+export async function fetchSearchMovies(page = 1) {
+    const res = await fetch(
+        `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&page=${page}`
+    );
+    return await res.json();
+}
+
+// 🎬 장르 목록 가져오기
+export async function fetchGenres() {
+    const res = await fetch(
+        `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=ko-KR`
+    );
+    const data = await res.json();
+    return data.genres;
+}

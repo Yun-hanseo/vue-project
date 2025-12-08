@@ -1,6 +1,5 @@
 <template>
   <div class="filter-container">
-    <!-- 🔥 장르 선택 -->
     <div class="filter-item">
       <label>장르</label>
       <select v-model="selectedGenre" @change="emitChange">
@@ -11,7 +10,6 @@
       </select>
     </div>
 
-    <!-- 🔥 평점 필터 -->
     <div class="filter-item">
       <label>평점</label>
       <select v-model="selectedRating" @change="emitChange">
@@ -23,7 +21,6 @@
       </select>
     </div>
 
-    <!-- 🔥 정렬 방식 -->
     <div class="filter-item">
       <label>정렬</label>
       <select v-model="selectedSort" @change="emitChange">
@@ -34,7 +31,6 @@
       </select>
     </div>
 
-    <!-- 🔥 필터 초기화 -->
     <button class="reset-btn" @click="resetFilters">초기화</button>
   </div>
 </template>

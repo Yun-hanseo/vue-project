@@ -1,6 +1,5 @@
 <template>
   <div class="search-page">
-
     <SearchFilter
         :genres="genres"
         @filter-change="applyFilter"
@@ -21,56 +20,61 @@ import { ref, onMounted } from "vue";
 import SearchFilter from "./SearchFilter.vue";
 import SearchList from "./SearchList.vue";
 import SearchTopButton from "./SearchTopButton.vue";
-import { fetchSearchMovies, fetchGenres } from "@/utils/movie.js";
 
-const movies = ref([]);          // 전체 영화 데이터
-const filteredMovies = ref([]);  // 필터 적용 후 데이터
-const genres = ref([]);          // 장르 목록
+import {
+  fetchSearchMovies,
+  fetchGenres,
+  fetchMoviesByGenre
+} from "@/utils/movie.js";
+
+const movies = ref([]);
+const filteredMovies = ref([]);
+const genres = ref([]);
 const isLoading = ref(false);
 
-const MAX_PAGE = 20;  // ⭐ 한번에 불러올 페이지 수 (400개)
+const MAX_PAGE = 10;
 
-
-async function loadManyMovies() {
+async function loadMovies(options = {}) {
   isLoading.value = true;
+  movies.value = [];
 
-  for (let page = 1; page <= MAX_PAGE; page++) {
-    const data = await fetchSearchMovies(page);
+  const { genre, rating, sort } = options;
 
-    if (Array.isArray(data.results)) {
-      movies.value.push(...data.results);
+  // 요청 배열 생성
+  const requests = [];
+
+  if (genre) {
+    // 장르 기반 API
+    for (let p = 1; p <= MAX_PAGE; p++) {
+      requests.push(fetchMoviesByGenre(genre, p));
+    }
+  } else {
+    // 기본 discover API
+    for (let p = 1; p <= MAX_PAGE; p++) {
+      requests.push(fetchSearchMovies(p, options));
     }
   }
 
-  filteredMovies.value = movies.value;
+  const responses = await Promise.all(requests);
+
+  responses.forEach(data => {
+    if (data?.results) movies.value.push(...data.results);
+  });
+
+  let list = [...movies.value];
+  if (rating) list = list.filter(m => m.vote_average >= Number(rating));
+
+  if (sort === "popular") list.sort((a, b) => b.popularity - a.popularity);
+  if (sort === "rating") list.sort((a, b) => b.vote_average - a.vote_average);
+  if (sort === "newest") list.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+
+  filteredMovies.value = list;
+
   isLoading.value = false;
 }
 
 function applyFilter(options) {
-  const { genre, rating, sort } = options;
-
-  let list = [...movies.value];
-
-  // 장르 필터
-  if (genre) {
-    list = list.filter(m => m.genre_ids.includes(Number(genre)));
-  }
-
-  // 평점 필터
-  if (rating) {
-    list = list.filter(m => m.vote_average >= Number(rating));
-  }
-
-  // 정렬
-  if (sort === "popular") {
-    list.sort((a, b) => b.popularity - a.popularity);
-  } else if (sort === "rating") {
-    list.sort((a, b) => b.vote_average - a.vote_average);
-  } else if (sort === "newest") {
-    list.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
-  }
-
-  filteredMovies.value = list;
+  loadMovies(options);
 }
 
 function resetFilter() {
@@ -78,17 +82,17 @@ function resetFilter() {
 }
 
 onMounted(async () => {
-  genres.value = await fetchGenres(); // 장르 로드
-  await loadManyMovies();            // 영화 400개 로드
+  genres.value = await fetchGenres();
+  loadMovies();
 });
 </script>
+
 
 <style scoped>
 .search-page {
   padding: 20px;
   margin-top: 80px;
 }
-
-
 </style>
+
 

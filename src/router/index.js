@@ -5,6 +5,7 @@ import HomeComponent from "@/components/Home/Home.vue";
 import AuthContainer from "@/components/login/AuthContainer.vue";
 import Popular from "@/components/Popular/Popular.vue";
 import Search from "@/components/Search/Search.vue";
+import Wishlist from "@/components/Wishlist/Wishlist.vue";
 
 const routes = [
     {
@@ -25,6 +26,10 @@ const routes = [
         path: "/search",
         name: "search",
         component: Search
+    },
+    {
+        path: "/wishlist",
+        component: Wishlist
     }
 ];
 

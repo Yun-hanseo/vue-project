@@ -23,9 +23,7 @@ const router = createRouter({
     routes,
 });
 
-// ===============================
-// 🔐 로그인 여부 확인 미들웨어
-// ===============================
+//로그인 여부 확인 미들웨어
 router.beforeEach((to, from, next) => {
     const isLoggedIn = localStorage.getItem("user");
 

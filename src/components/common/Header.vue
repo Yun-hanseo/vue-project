@@ -3,7 +3,7 @@
 
   <!-- 로고 -->
     <div class="logo" @click="goHome">
-      🎬 MovieDB
+      Home
     </div>
 
     <!-- 네비 메뉴 -->

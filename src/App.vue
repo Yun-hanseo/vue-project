@@ -1,9 +1,6 @@
 <template>
-  <div
-      class="app-wrapper"
-      :class="{ noHeader: $route.path === '/signin' }"
-  >
-    <Header v-if="$route.path !== '/signin'" />
+  <div class="app-wrapper">
+    <Header />
 
     <transition name="fade" mode="out-in">
       <RouterView />
@@ -30,9 +27,7 @@ html, body {
   background-color: #1a1a1d;
   padding-top: 70px;
 }
-
-.app-wrapper.noHeader {
-  padding-top: 0;
-}
 </style>
+
+
 

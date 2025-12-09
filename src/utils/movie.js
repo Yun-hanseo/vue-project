@@ -49,5 +49,3 @@ export async function fetchGenres() {
     const data = await res.json();
     return data.genres;
 }
-
-

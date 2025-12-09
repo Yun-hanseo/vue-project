@@ -107,9 +107,9 @@ function logout() {
 }
 
 .nav {
+  margin-right:800px;
   display: flex;
-  gap: 20px;
-  margin-left:200px;
+  gap: 24px;
 }
 
 .nav a {

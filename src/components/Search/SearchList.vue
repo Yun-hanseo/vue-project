@@ -2,8 +2,8 @@
   <div class="list-container">
     <div class="movie-grid">
       <SearchItem
-          v-for="(movie, index) in movies"
-          :key="movie.id + '-' + index"
+          v-for="movie in movies"
+          :key="movie.id"
           :movie="movie"
       />
     </div>

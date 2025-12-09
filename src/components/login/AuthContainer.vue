@@ -24,184 +24,134 @@ const showRegister = () => (isLogin.value = false)
 const showLogin = () => (isLogin.value = true)
 </script>
 
+
 <style>
-/* 전체 레이아웃 */
+html, body {
+margin: 0;
+padding: 0;
+height: 100%;
+overflow: hidden;
+}
+
+/* 전체 레이아웃 (중앙 그대로 유지) */
 .auth-container {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-color);
+width: 100%;
+height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+
+background:
+linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+url("/netflix.png");
+
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
 }
 
-/* 카드 박스 */
+/* 카드 박스 (원래 너 UI 그대로 유지 + 감성만 업그레이드) */
 .auth-card {
-  width: 90%;
-  max-width: 420px;
-  padding: 32px;
-  border-radius: 16px;
-  background: var(--card-bg);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  animation: fadeUp 0.4s ease-out;
+width: 550px;
+max-width: 490px;
+padding: 80px;
+border-radius: 16px;
+
+background: rgba(0, 0, 0, 0.55);
+backdrop-filter: blur(6px);
+
+box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+
+display: flex;
+flex-direction: column;
+gap: 24px;
+
+animation: fadeUp 0.4s ease-out;
+color: white;
 }
 
-/* 제목 */
+/* 제목 (크기 조정 X, 그대로 유지) */
 .auth-title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 4px;
+text-align: center;
+font-size: 40px;
+font-weight: 700;
 }
 
-/* input 그룹 */
-.input-group {
+.auth-form {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 22px;   /* 🔥 입력칸 사이 간격 넓히기 */
 }
+
 
 .input-group label {
-  font-size: 14px;
-  opacity: 0.85;
+  display: none;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 15px;
 }
 
 .input-group input {
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  background: var(--input-bg);
-  color: var(--text-color);
-  font-size: 14px;
-  transition: 0.2s;
+  width:95%;
+  height:30px;
+padding: 12px 14px;
+border-radius: 10px;
+border: 1px solid rgba(255,255,255,0.25);
+
+background: rgba(255,255,255,0.1);
+color: white;
+
+transition: 0.25s;
+}
+
+.input-group input::placeholder {
+color: rgba(255,255,255,0.5);
 }
 
 .input-group input:focus {
-  border-color: #6ea8fe;
-  box-shadow: 0 0 0 3px rgba(110, 168, 254, 0.3);
-  outline: none;
+border-color: #e50914;
+box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+outline: none;
 }
 
-/* 로그인 버튼 */
+/* 버튼 그대로 + 넷플릭스 레드 */
 .auth-btn {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: #4c7fff;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  transition: 0.2s;
-  cursor: pointer;
-}
+width: 100%;
+padding: 20px;
+border-radius: 10px;
+border: none;
 
-.remember-me {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  font-size: 14px;
-}
+background: #e50914;
+color: white;
 
-.terms {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
+font-size: 16px;
+font-weight: 600;
 
+cursor: pointer;
+transition: 0.25s;
+}
 
 .auth-btn:hover {
-  background: #3e6ae6;
+background: #f6121d;
 }
 
-/* 하단 문구 */
+/* 푸터 텍스트 */
+.remember-me,
+.terms,
 .auth-footer {
-  text-align: center;
-  font-size: 14px;
-  opacity: 0.9;
+color: white;
 }
 
 .auth-link {
-  color: #4c7fff;
-  font-weight: 600;
-  cursor: pointer;
+color: #4dabff;
+cursor: pointer;
 }
 
-/* 다크모드 자동 대응 */
-:root {
-  --bg-color: #f3f5f8;
-  --card-bg: white;
-  --text-color: #222;
-  --input-bg: #f9f9f9;
-  --border-color: #ccc;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #0f0f0f;
-    --card-bg: #181818;
-    --text-color: #fff;
-    --input-bg: #1f1f1f;
-    --border-color: #333;
-  }
-}
-
-/* 등장 애니메이션 */
+/* fade 애니메이션 그대로 유지 */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+from { opacity: 0; transform: translateY(16px); }
+to { opacity: 1; transform: translateY(0); }
 }
-
-/* ========== 전환 애니메이션 ========== */
-/* ==========================
-      자연스러운 전환 효과
-   ========================== */
-.auth-slide-enter-active,
-.auth-slide-leave-active {
-  transition: all 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
-  position: absolute;
-  width: 100%;
-}
-
-.auth-slide-enter-from {
-  opacity: 0;
-  transform: translateX(35px) scale(0.98);
-}
-
-.auth-slide-enter-to {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-}
-
-.auth-slide-leave-from {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-}
-
-.auth-slide-leave-to {
-  opacity: 0;
-  transform: translateX(-35px) scale(0.98);
-}
-
-
-/* 부모가 relative여야 자연스럽게 겹치며 전환됨 */
-.auth-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-}
-
 </style>

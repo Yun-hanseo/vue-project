@@ -71,3 +71,4 @@ const viewType = ref("table"); // 기본값은 Table View
 }
 </style>
 
+

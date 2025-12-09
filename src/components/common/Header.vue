@@ -10,8 +10,8 @@
     <nav class="nav">
       <RouterLink to="/">홈</RouterLink>
       <RouterLink to="/popular">인기</RouterLink>
-      <RouterLink to="/search">검색</RouterLink>
-      <RouterLink to="/wishlist">추천목록</RouterLink>
+      <RouterLink to="/search">시리즈</RouterLink>
+      <RouterLink to="/wishlist">관심 목록</RouterLink>
     </nav>
 
     <!-- 로그인 사용자, 로그아웃 -->
@@ -109,6 +109,7 @@ function logout() {
 .nav {
   display: flex;
   gap: 20px;
+  margin-left:200px;
 }
 
 .nav a {

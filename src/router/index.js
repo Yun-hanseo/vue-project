@@ -25,7 +25,7 @@ const router = createRouter({
 
 //로그인 여부 확인 미들웨어
 router.beforeEach((to, from, next) => {
-    const isLoggedIn = localStorage.getItem("user");
+    const isLoggedIn = localStorage.getItem("auth") === "true";
 
     if (!isLoggedIn && to.path !== "/signin") {
         next("/signin");

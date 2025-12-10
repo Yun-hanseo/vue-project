@@ -65,9 +65,8 @@ onMounted(() => {
     rememberMe.value = true;
   }
 
-  // ⭐ 자동 로그인 (선택 기능 - 추가 점수 가능)
-  const user = localStorage.getItem("user");
-  if (user) {
+  const auth = localStorage.getItem("auth");
+  if (auth === "true") {
     router.push("/");
   }
 });
@@ -84,6 +83,9 @@ async function handleLogin() {
   if (result.success) {
     showToast("로그인 성공!", "#4c7fff");
 
+    // ⭐ 로그인 상태 저장
+    localStorage.setItem("auth", "true");
+
     // ⭐ Remember Me 저장
     if (rememberMe.value) {
       localStorage.setItem("rememberEmail", email.value);
@@ -96,9 +98,11 @@ async function handleLogin() {
     }, 500);
 
   } else {
+    // 🔥 로그인 실패 메시지 그대로 유지됨
     showToast("로그인 실패: " + result.message, "red");
   }
 }
+
 
 
 function showToast(message, color = "#4c7fff") {
